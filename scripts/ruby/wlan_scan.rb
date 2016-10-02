@@ -7,10 +7,26 @@
 
 # optionally input wireless interface adapter
 def main(wlan = "wlan0")
-  wifi_output = `sudo iwlist #{wlan} scan`
+  # create empty array for results
+  return_array = []
   
+  # use linux wifi utility to scan wifi access points
+  wifi_output = `sudo iwlist #{wlan} scan`  
   wifi_output_array = wifi_output.split(/Cell \d\d/)
-  return wifi_output_array.inspect
+  
+  wifi_output_array.each_with_index do |r, i|
+    next if i == 0 # we don't care about first match, it has no info
+    access_info = {} # initialize empty hash for information
+    access_info[:ssid] = r.match(/ESSID:\S+?\n/)
+    access_info[:quality] = r.match(/Quality=\S+?\s/)
+    access_info[:signal] = r.match(/Signal level=\S+?\s\S+?/)
+    access_info[:mac] = r.match(/Address: \S+?\n/)
+    access_info[:channel] = r.match(/Channel:\d{1,2}/)
+    access_info[:frequency] = r.match(/Frequency:\S+? GHz/)
+    return_array << access_info
+  end
+  
+  return return_array.inspect
 end
 
 # by default, puts the return value from main()
