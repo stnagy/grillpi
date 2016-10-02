@@ -9,7 +9,7 @@
 def main(wlan = "wlan0")
   wifi_output = `sudo iwlist #{wlan} scan`
   
-  wifi_output_array = wifi_output.split(/Cell \n\n/)
+  wifi_output_array = wifi_output.split(/Cell \d\d/)
   return wifi_output_array.inspect
 end
 
