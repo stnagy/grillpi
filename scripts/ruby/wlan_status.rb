@@ -12,7 +12,13 @@ def wifi_status
   # run iwconfig utility
   wifi_status = `iwconfig`
   
+  # check current wifi ssid
   return_hash[:current_ssid] = wifi_status.match(/ESSID:.+?\n/).to_s[6..-1].strip.gsub('"', '') # remove quotes
+  
+  # return false if no connection
+  return false if return_hash[:current_ssid] == "off/any"
+  
+  # get remaining params
   return_hash[:frequency] = wifi_status.match(/Frequency:\S+? GHz/).to_s[10..-1].strip
   return_hash[:mac] = wifi_status.match(/Access Point: \S{2}(:\S{2}){5}/).to_s[12..-1].strip
   return_hash[:quality] = wifi_status.match(/Quality=\S+?\s/).to_s[8..-1].strip
