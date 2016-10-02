@@ -17,7 +17,7 @@ def main(wlan = "wlan0")
   wifi_output_array.each_with_index do |r, i|
     next if i == 0 # we don't care about first match, it has no info
     access_info = {} # initialize empty hash for information
-    access_info[:ssid] = r.match(/ESSID:.+?\n/).to_s[6..-1].strip
+    access_info[:ssid] = r.match(/ESSID:.+?\n/).to_s[6..-1].strip.gsub('"', '') # remove quotes
     access_info[:quality] = r.match(/Quality=\S+?\s/).to_s[8..-1].strip
     access_info[:signal] = r.match(/Signal level=.+?\n/).to_s[13..-1].strip
     access_info[:mac] = r.match(/Address: \S+?\n/).to_s[9..-1].strip
@@ -26,7 +26,7 @@ def main(wlan = "wlan0")
     return_array << access_info
   end
   
-  return return_array.inspect
+  return return_array
 end
 
 # by default, puts the return value from main()
