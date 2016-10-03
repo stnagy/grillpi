@@ -11,7 +11,7 @@ def wifi_connect(essid, key)
   wifi_configuration = "\n\nnetwork={\n  ssid=\"#{essid}\"\n  psk=\"#{key}\"\n}"
   
   if wpa_supplicant.match(essid)
-    positions_lengths = wpa_supplicant.enum_for(:scan, /network={.+ssid=\W#{essid}\W.+psk.+}/im).map { [ Regexp.last_match.begin(0), Regexp.last_match.to_s.length ] }
+    positions_lengths = wpa_supplicant.enum_for(:scan, /network={.+ssid=\W#{essid}\W.+psk.+}/im).map { |i| [ Regexp.last_match.begin(0), i[0].length ] }
     puts positions_lengths
   
   else
