@@ -7,14 +7,17 @@
 def wifi_connect(essid, key)
 
   # check wpa_supplicant file and save information for autoconnect
-  wpa_supplicant = `cat /etc/wpa_supplicant/wpa_supplicant.conf`
   wifi_configuration = "\n\nnetwork={\n  ssid=\"#{essid}\"\n  psk=\"#{key}\"\n}"
   
   if wpa_supplicant.match(essid)
-    return
+    positions_lengths = s.enum_for(:scan, /network=.+?#{essid}.+?}/).map { [ Regexp.last_match.begin(0), Regexp.last_match.to_s.length ] }
+  
   else
     `sudo echo '#{wifi_configuration}' >> /etc/wpa_supplicant/wpa_supplicant.conf`
-    return
+    `sudo ifdown wlan0`
+    `sudo ifup wlan0` 
   end
+  
+  return true
 
 end
