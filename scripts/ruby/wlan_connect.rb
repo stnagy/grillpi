@@ -11,8 +11,8 @@ def wifi_connect(essid, key)
   wifi_configuration = "\n\nnetwork={\n  ssid=\"#{essid}\"\n  psk=\"#{key}\"\n}"
   
   if wpa_supplicant.match(essid)
-    positions_lengths = wpa_supplicant.enum_for(:scan, /network={\s+?ssid=\W#{essid}\W\s+?psk.+?}/im).map { |i| [ Regexp.last_match.begin(0), i.length ] }
-    puts positions_lengths
+    `sudo sed -i 's/network={\s+?ssid=\W#{essid}\W\s+?psk.+?}//g /etc/wpa_supplicant/wpa_supplicant.conf`
+    `cat /etc/wpa_supplicant/wpa_supplicant.conf`
   
   else
     `sudo echo '#{wifi_configuration}' >> /etc/wpa_supplicant/wpa_supplicant.conf`
