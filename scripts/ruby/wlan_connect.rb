@@ -11,7 +11,7 @@ def wifi_connect(essid, key)
   wifi_configuration = "\n\nnetwork={\n  ssid=\"#{essid}\"\n  psk=\"#{key}\"\n}"
   
   if wpa_supplicant.match(essid)
-    `sed -i 's/network={\s+ssid="#{essid}"\s+psk.+\s}//g' /etc/wpa_supplicant/wpa_supplicant.conf`
+    `sudo sed -i 's/network={\s+ssid="#{essid}"\s+psk.+\s}//g' /etc/wpa_supplicant/wpa_supplicant.conf`
     `sudo cat /etc/wpa_supplicant/wpa_supplicant.conf`
   
   else
