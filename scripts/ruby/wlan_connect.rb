@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+# script to connect to a different wifi hotspot
+# requires iwconfig utility
+# works on rpi 3 as of October 1, 2016
+
+def wifi_connect(essid, key)
+
+  # check wpa_supplicant file and save information for autoconnect
+  wpa_supplicant = `cat /etc/wpa_supplicant/wpa_supplicant.conf`
+  wifi_configuration = "\n\nnetwork={\n  ssid=\"#{essid}\"\n  psk=\"#{key}\"\n}"
+  
+  if wpa_supplicant.match(essid)
+    return
+  else
+    `sudo echo '#{wifi_configuration}' >> /etc/wpa_supplicant/wpa_supplicant.conf`
+    return
+  end
+
+end

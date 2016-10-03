@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 # script to get current connection status of wifi
+# returns hash containing connection data or false if no connection
 # requires iwconfig utility
 # works on rpi 3 as of October 1, 2016
 
