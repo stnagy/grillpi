@@ -11,6 +11,7 @@ def wifi_connect(essid, key)
   
   if wpa_supplicant.match(essid)
     positions_lengths = s.enum_for(:scan, /network=.+?#{essid}.+?}/).map { [ Regexp.last_match.begin(0), Regexp.last_match.to_s.length ] }
+    puts positions_lengths
   
   else
     `sudo echo '#{wifi_configuration}' >> /etc/wpa_supplicant/wpa_supplicant.conf`
