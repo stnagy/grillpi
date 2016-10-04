@@ -12,7 +12,7 @@ def wifi_connect(essid, key)
   
   if wpa_supplicant.match(essid)
     # if the wpa_supplicant file already has configuration information for this essid,
-    # use sed to remove old essid configuration from file
+    # use sed script to remove old essid configuration from file
     # sed tutorial: http://www.grymoire.com/Unix/Sed.html
     `/home/pi/grillpi/scripts/shell/wlan_connect.sed "#{essid}"`
     
