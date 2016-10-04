@@ -14,7 +14,7 @@ def wifi_connect(essid, key)
     # if the wpa_supplicant file already has configuration information for this essid,
     # use sed to remove old essid configuration from file
     # sed tutorial: http://www.grymoire.com/Unix/Sed.html
-    `~/grillpi/scripts/bash/wlan_connect.sed "#{essid}"`
+    `/home/pi/grillpi/scripts/shell/wlan_connect.sed "#{essid}"`
     
     # clean up double returns
     `sudo sed -r -i '/^\s*$/ { N; /^\s*$/ { D; D }}' /etc/wpa_supplicant/wpa_supplicant.conf` 
