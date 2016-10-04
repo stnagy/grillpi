@@ -11,13 +11,22 @@ def wifi_connect(essid, key)
   wifi_configuration = "\n\nnetwork={\n  ssid=\"#{essid}\"\n  psk=\"#{key}\"\n}"
   
   if wpa_supplicant.match(essid)
-    `sudo sed -i 's/network={\s+ssid="#{essid}"\s+psk.+\s}//g' /etc/wpa_supplicant/wpa_supplicant.conf`
-    puts `sudo cat /etc/wpa_supplicant/wpa_supplicant.conf`
-  else
-    `sudo echo '#{wifi_configuration}' >> /etc/wpa_supplicant/wpa_supplicant.conf`
-    `sudo ifdown wlan0`
-    `sudo ifup wlan0` 
+    # if the wpa_supplicant file already has configuration information for this essid,
+    # use sed to remove old essid configuration from file
+    # sed tutorial: http://www.grymoire.com/Unix/Sed.html
+    `sudo sed -r -i '/network/ { N; /#{essid}/ { N; N; s/network=\{\n\s+ssid="#{essid}"\n\s+psk.+\n\}// }}' /etc/wpa_supplicant/wpa_supplicant.conf`
+    # clean up double returns
+    `sudo sed -r -i '/^\s*$/ { N; /^\s*$/ { D; D }}' /etc/wpa_supplicant/wpa_supplicant.conf` 
   end
+  
+  # add new configuration information into wpa_supplicant file
+  `sudo echo '#{wifi_configuration}' >> /etc/wpa_supplicant/wpa_supplicant.conf`
+  # clean up double newlines
+  `sudo sed -r -i '/^\s*$/ { N; /^\s*$/ { D; D }}' /etc/wpa_supplicant/wpa_supplicant.conf` 
+  
+  # cycle wireless interface to autoconnect
+  `sudo ifdown wlan0`
+  `sudo ifup wlan0` 
   
   return true
 
