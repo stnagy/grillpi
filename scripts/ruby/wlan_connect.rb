@@ -16,13 +16,14 @@ def wifi_connect(essid, key)
     # sed tutorial: http://www.grymoire.com/Unix/Sed.html
     `sudo /home/pi/grillpi/scripts/shell/wlan_connect.sed "#{essid}"`
     
-    # clean up double returns
+    # clean up double newlines
     `sudo sed -r -i '/^\s*$/ { N; /^\s*$/ { D; D }}' /etc/wpa_supplicant/wpa_supplicant.conf` 
   end
   
   # add new configuration information into wpa_supplicant file
   `sudo echo '#{wifi_configuration}' >> /etc/wpa_supplicant/wpa_supplicant.conf`
   # clean up double newlines
+  `sudo sed -r -i '/^\s*$/ { N; /^\s*$/ { D; D }}' /etc/wpa_supplicant/wpa_supplicant.conf` 
   `sudo sed -r -i '/^\s*$/ { N; /^\s*$/ { D; D }}' /etc/wpa_supplicant/wpa_supplicant.conf` 
   
   # cycle wireless interface to autoconnect

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Webapp</title>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tags %>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Angular Material Icons -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.7.0/angular-material-icons.min.js"></script>
+
+
+  </head>
+  <body>
+
+    <body ng-app="Grillpi" layout="column" flex>
+
+      <md-content flex layout="column" id="content">
+        <div ui-view="main" flex layout="column"></div>
+      </md-content>
+
+    </body>
+
+  </body>
+</html>
